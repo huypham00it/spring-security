@@ -55,13 +55,13 @@ class AuthController {
 
         //check exist username or password
         if (requestUsername && !userService.existsByUsername(requestUsername)) {
-            response = new MessageResponse(400, "Username does not exists!", "Failed")
+            response = new MessageResponse(400, "Username does not exists!")
 
             return ResponseEntity.status(400).body(response)
         }
 
         if (requestEmail && !userService.existsByEmail(requestEmail)) {
-            response = new MessageResponse(400, "Email does not exists!", "Failed")
+            response = new MessageResponse(400, "Email does not exists!")
 
             return ResponseEntity.status(400).body(response)
         }
@@ -85,11 +85,11 @@ class AuthController {
                     userDetails.getId(),
                     userDetails.getUsername(),
                     userDetails.getEmail(),
-                    roles, new MessageResponse(201, "Login successfully", "Success"))
+                    roles, new MessageResponse(200, "Login successfully"))
 
             return ResponseEntity.status(200).body(response)
         } catch (Exception e) {
-            response = new MessageResponse(400, "Password is not correct", "Failed")
+            response = new MessageResponse(400, "Password is not correct")
 
             return ResponseEntity.status(400).body(response)
         }
@@ -101,13 +101,13 @@ class AuthController {
         if (userService.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse(400, "Username is already taken!", "Failed"))
+                    .body(new MessageResponse(400, "Username is already taken!"))
         }
 
         if (userService.existsByEmail(signUpRequest.getEmail())) {
             return ResponseEntity
                     .badRequest()
-                    .body(new MessageResponse(400, "Email is already in use!", "Failed"))
+                    .body(new MessageResponse(400, "Email is already in use!"))
         }
 
         // Create new user's account
@@ -153,7 +153,7 @@ class AuthController {
         user.setRoles(roles)
         userService.save(user)
 
-        return ResponseEntity.status(201).body(new MessageResponse(201, "User registered successfully!", "Success"))
+        return ResponseEntity.status(201).body(new MessageResponse(201, "User registered successfully!"))
     }
 
     private static boolean existsByRole(Set<Role> roles, Role role) {
