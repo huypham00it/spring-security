@@ -6,38 +6,36 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 
-import java.util.stream.Collectors
-
 class UserDetailsImpl implements UserDetails {
 
     private String id
-
     private String username
-
     private String email
-
+    private String fullName
     @JsonIgnore
     private String password
 
     private Collection<? extends GrantedAuthority> authorities
 
-    UserDetailsImpl(String id, String username, String email, String password,
+    UserDetailsImpl(String id, String username, String email, String password, String fullName,
                     Collection<? extends GrantedAuthority> authorities) {
         this.id = id
         this.username = username
         this.email = email
         this.password = password
+        this.fullName = fullName
         this.authorities = authorities
     }
 
     static UserDetailsImpl build(User user) {
-        List<GrantedAuthority> authorities = user.getRoles().collect(role -> new SimpleGrantedAuthority(role.getName().name()))
+        List<GrantedAuthority> authorities = user.getRoles().collect(role -> new SimpleGrantedAuthority(role.getName()))
 
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
                 user.getEmail(),
                 user.getPassword(),
+                user.getFullName(),
                 authorities)
     }
 
@@ -52,6 +50,10 @@ class UserDetailsImpl implements UserDetails {
 
     String getEmail() {
         return email
+    }
+
+    String getFullName() {
+        return fullName
     }
 
     @Override

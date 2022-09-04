@@ -28,8 +28,9 @@ class Role {
         this.id = id
     }
 
-    ERole getName() {
-        return name
+    String getName() {
+        def returnName = name.toString()
+        return returnName
     }
 
     void setName(ERole name) {

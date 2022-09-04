@@ -1,7 +1,6 @@
 package com.springsecurity_app.springboot_auth_jwt_mongo.controllers
 
 import com.springsecurity_app.springboot_auth_jwt_mongo.models.User
-import com.springsecurity_app.springboot_auth_jwt_mongo.security.services.UserService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.mongodb.core.MongoTemplate
 import org.springframework.security.access.prepost.PreAuthorize
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/api/v1/test")
 class TestController {
     @Autowired
     MongoTemplate mongoTemplate

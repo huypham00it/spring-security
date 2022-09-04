@@ -5,7 +5,6 @@ import com.springsecurity_app.springboot_auth_jwt_mongo.security.services.UserDe
 import io.jsonwebtoken.impl.TextCodec
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.context.annotation.Bean
 import org.springframework.security.core.Authentication
 import org.springframework.stereotype.Component
 
@@ -32,7 +31,8 @@ class JwtUtils {
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, TextCodec.BASE64.decode(jwtSecret))
+//                .signWith(SignatureAlgorithm.HS256, TextCodec.BASE64.decode(jwtSecret))
+                .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact()
     }
 

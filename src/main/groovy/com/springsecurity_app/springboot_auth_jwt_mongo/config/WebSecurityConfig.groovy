@@ -3,6 +3,7 @@ package com.springsecurity_app.springboot_auth_jwt_mongo.config
 import com.springsecurity_app.springboot_auth_jwt_mongo.security.filter.AuthoritiesLoggingAfterFilter
 import com.springsecurity_app.springboot_auth_jwt_mongo.security.filter.AuthoritiesLoggingAtFilter
 import com.springsecurity_app.springboot_auth_jwt_mongo.security.filter.RequestValidationBeforeFilter
+import com.springsecurity_app.springboot_auth_jwt_mongo.security.jwt.AuthTokenFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.authentication.AuthenticationManager
@@ -15,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
@@ -24,8 +26,8 @@ import javax.servlet.http.HttpServletRequest
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(
-        securedEnabled = true,//@Secured
-        jsr250Enabled = true,//@RoleAllowed
+//        securedEnabled = true,//@Secured
+//        jsr250Enabled = true,//@RoleAllowed
         prePostEnabled = true)
 //@PreAuthorize, @PostAuthorize
 class WebSecurityConfig {
@@ -38,6 +40,11 @@ class WebSecurityConfig {
     AuthenticationManager authenticationManager(
             AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager()
+    }
+
+    @Bean
+    AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
     }
 
     @Bean
@@ -57,20 +64,16 @@ class WebSecurityConfig {
             }
         }).and()
                 .csrf().disable()
-                .formLogin().loginPage("/auth/login").and()
-                .addFilterBefore(new RequestValidationBeforeFilter(), BasicAuthenticationFilter.class)
-                .addFilterAfter(new AuthoritiesLoggingAfterFilter(), BasicAuthenticationFilter.class)
-                .addFilterAt(new AuthoritiesLoggingAtFilter(), BasicAuthenticationFilter.class)
+                .addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeHttpRequests((auth) -> auth
-                        .antMatchers("/api/auth/**").permitAll()
-                        .antMatchers("/api/test/**").permitAll()
-                        .antMatchers("/api/bank/notices").permitAll()
-                        .antMatchers("/api/bank/cards").permitAll()
+                        .antMatchers("/api/v1/auth/**").permitAll()
+                        .antMatchers("/api/v1/spotlights").permitAll()
+                        .antMatchers("/api/v1/jobs").permitAll()
                         .anyRequest().authenticated()
-                ).httpBasic()
+                ).httpBasic(Customizer.withDefaults())
         return http.build()
     }
 }

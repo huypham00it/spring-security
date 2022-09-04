@@ -25,10 +25,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 import javax.validation.Valid
-import java.util.stream.Collectors
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/v1/auth")
 class AuthController {
     @Autowired
     AuthenticationManager authenticationManager
@@ -73,8 +72,7 @@ class AuthController {
             def auth = new UsernamePasswordAuthenticationToken(username, password)
             Authentication authentication = authenticationManager.authenticate(auth)
 
-            SecurityContext sc = SecurityContextHolder.getContext()
-            sc.setAuthentication(authentication)
+            SecurityContextHolder.getContext().setAuthentication(authentication)
 
             String jwt = jwtUtils.generateJwtToken(authentication)
 
@@ -85,7 +83,9 @@ class AuthController {
                     userDetails.getId(),
                     userDetails.getUsername(),
                     userDetails.getEmail(),
-                    roles, new MessageResponse(201, "Login successfully", "Success"))
+                    userDetails.getFullName(),
+                    roles
+            )
 
             return ResponseEntity.status(200).body(response)
         } catch (Exception e) {

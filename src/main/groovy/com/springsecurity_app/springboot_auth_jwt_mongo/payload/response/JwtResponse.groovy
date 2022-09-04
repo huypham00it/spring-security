@@ -6,24 +6,24 @@ class JwtResponse {
     private String id
     private String username
     private String email
+    private String fullName
     private List<String> roles
-    private MessageResponse meta
 
-    MessageResponse getMeta() {
-        return meta
-    }
-
-    void setMeta(MessageResponse meta) {
-        this.meta = meta
-    }
-
-    JwtResponse(String accessToken, String id, String username, String email, List<String> roles, MessageResponse meta) {
+    JwtResponse(String accessToken, String id, String username, String email, String fullName, List<String> roles) {
         this.token = accessToken
         this.id = id
         this.username = username
         this.email = email
+        this.fullName = fullName
         this.roles = roles
-        this.meta = meta
+    }
+
+    String getFullName() {
+        return fullName
+    }
+
+    void setFullName(String fullName) {
+        this.fullName = fullName
     }
 
     String getAccessToken() {

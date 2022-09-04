@@ -10,19 +10,19 @@ import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import java.util.logging.Logger
 
-class AuthoritiesLoggingAfterFilter implements Filter {
-    private final Logger LOG =
-            Logger.getLogger(AuthoritiesLoggingAfterFilter.class.getName())
-
-    @Override
-    void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
-            throws IOException, ServletException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication()
-        if (null != authentication) {
-            LOG.info("User " + authentication.getName() + " is successfully authenticated and "
-                    + "has the authorities " + authentication.getAuthorities().toString())
-        }
-
-        chain.doFilter(request, response)
-    }
-}
+//class AuthoritiesLoggingAfterFilter implements Filter {
+//    private final Logger LOG =
+//            Logger.getLogger(AuthoritiesLoggingAfterFilter.class.getName())
+//
+//    @Override
+//    void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+//            throws IOException, ServletException {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication()
+//        if (null != authentication) {
+//            LOG.info("User " + authentication.getName() + " is successfully authenticated and "
+//                    + "has the authorities " + authentication.getAuthorities().toString())
+//        }
+//
+//        chain.doFilter(request, response)
+//    }
+//}
