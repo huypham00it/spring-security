@@ -1,43 +1,37 @@
 package com.springsecurity_app.springboot_auth_jwt_mongo.payload.response
 
 class MessageResponse {
-    private int code
     private String message
     private Date timestamp
-    private String status
-
-    MessageResponse(int code, String message, String status) {
-        this.code = code
-        this.message = message
-        this.timestamp = new Date()
-        this.status = status
-    }
+    private int status
 
     String getMessage() {
         return message
-    }
-
-    int getCode() {
-        return code
     }
 
     void setMessage(String message) {
         this.message = message
     }
 
-    void setCode(int code) {
-        this.code = code
-    }
-
     Date getTimestamp() {
         return timestamp
     }
 
-    String getStatus() {
+    void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp
+    }
+
+    int getStatus() {
         return status
     }
 
-    void setStatus(String status) {
+    void setStatus(int status) {
+        this.status = status
+    }
+
+    MessageResponse(int status, String message) {
+        this.message = message
+        this.timestamp = new Date()
         this.status = status
     }
 }
