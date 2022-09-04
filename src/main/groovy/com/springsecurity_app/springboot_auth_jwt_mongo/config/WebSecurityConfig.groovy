@@ -1,8 +1,6 @@
 package com.springsecurity_app.springboot_auth_jwt_mongo.config
 
-import com.springsecurity_app.springboot_auth_jwt_mongo.security.filter.AuthoritiesLoggingAfterFilter
-import com.springsecurity_app.springboot_auth_jwt_mongo.security.filter.AuthoritiesLoggingAtFilter
-import com.springsecurity_app.springboot_auth_jwt_mongo.security.filter.RequestValidationBeforeFilter
+
 import com.springsecurity_app.springboot_auth_jwt_mongo.security.jwt.AuthTokenFilter
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -17,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 
@@ -44,7 +41,7 @@ class WebSecurityConfig {
 
     @Bean
     AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
+        return new AuthTokenFilter()
     }
 
     @Bean
@@ -53,14 +50,14 @@ class WebSecurityConfig {
                 .cors().configurationSource(new CorsConfigurationSource() {
             @Override
             CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                CorsConfiguration config = new CorsConfiguration();
-                config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                config.setAllowedMethods(Collections.singletonList("*"));
-                config.setAllowCredentials(true);
-                config.setAllowedHeaders(Collections.singletonList("*"));
-                config.setExposedHeaders(Arrays.asList("Authorization"));
-                config.setMaxAge(3600L);
-                return config;
+                CorsConfiguration config = new CorsConfiguration()
+                config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"))
+                config.setAllowedMethods(Collections.singletonList("*"))
+                config.setAllowCredentials(true)
+                config.setAllowedHeaders(Collections.singletonList("*"))
+                config.setExposedHeaders(Arrays.asList("Authorization"))
+                config.setMaxAge(3600L)
+                return config
             }
         }).and()
                 .csrf().disable()
